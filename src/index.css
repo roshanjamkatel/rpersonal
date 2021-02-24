@@ -11,3 +11,37 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.aboutme_card {
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+  
+}
+
+.project_cards {
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+}
+
+.link_buttons {
+  
+}
+
+.circled_img {
+  width: 25vh;
+  padding: 10px;
+}
+
+.App {
+  background-color: #f9c9bc;
+}
+
+:root {
+  background-color: #f9c9bc;
+}
+
+.navbar_color {
+  background-color: #66d4f2;
+}
