@@ -5,8 +5,8 @@ import Nav from 'react-bootstrap/Nav'
 
 const NavBar = () => {
     return(
-        <Navbar className="navbar_color" variant="light">
-            <Navbar.Brand href="/home">rjamkatel</Navbar.Brand>
+        <Navbar bg="dark" variant="dark">
+            <Navbar.Brand href="/home">Roshan Jamkatel</Navbar.Brand>
             <Nav className="justify-content-end">
                 <Nav.Link href="/about">About</Nav.Link>
                 <Nav.Link href="/projects">Projects</Nav.Link>

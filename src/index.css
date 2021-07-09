@@ -22,7 +22,7 @@ code {
 .project_cards {
   display: flex;
   justify-content: center;
-  padding: 10px;
+  padding: 2%;
 }
 
 .link_buttons {
@@ -35,13 +35,13 @@ code {
 }
 
 .App {
-  background-color: #f9c9bc;
+  background-color: #5e646b;
 }
 
 :root {
-  background-color: #f9c9bc;
+  background-color: #5e646b;
 }
 
-.navbar_color {
-  background-color: #66d4f2;
+#instagramUsername {
+  color: white;
 }
