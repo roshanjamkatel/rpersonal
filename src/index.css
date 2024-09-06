@@ -35,13 +35,13 @@ code {
 }
 
 .App {
-  background-color: #5e646b;
+  background-color: #f8f9fa;
 }
 
 :root {
-  background-color: #5e646b;
+  background-color: #f8f9fa;
 }
 
 #instagramUsername {
-  color: white;
+  color: black;
 }

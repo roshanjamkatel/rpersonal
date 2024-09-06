@@ -5,22 +5,31 @@ import Button from 'react-bootstrap/Button'
 class About extends Component {
     render() {
         return (
-            <div className="aboutme_card">
-                <Card style={{ width: '18rem' }}>
-                    <Card.Img variant="top" src="https://scontent-ort2-1.xx.fbcdn.net/v/t1.6435-9/206801274_2611000242534750_4377716012143253614_n.jpg?_nc_cat=100&_nc_rgb565=1&ccb=1-3&_nc_sid=09cbfe&_nc_ohc=Fmbd-lt6AtkAX8c7jms&_nc_ht=scontent-ort2-1.xx&oh=23a71c76bcfb1fecbb4d8108b0b407d8&oe=60EC6E8C"/>
-                    <Card.Body>
-                        <Card.Title>Hello, I'm Roshan!</Card.Title>
-                        <Card.Text>
-                            I'm a programmer working at a big bank, and love to hop on projects and create applications that I use daily.
-                            I also run a Podcast called the Floatcast, stream on twitch, and blog sometimes (if you want to check it out under links) ;)
-                        </Card.Text>
-                        <form method="get" action="files/rjamkatel_resume.pdf">
-                            <Button type="submit" variant="dark">My Resume</Button>
-                        </form>
-                    </Card.Body>
-                </Card>
-            </div>
-        )
+          <div className="aboutme_card">
+            <Card style={{ width: "18rem" }}>
+              <Card.Img
+                variant="top"
+                src="https://media.licdn.com/dms/image/v2/D5603AQGWwTFa1UZCFg/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1723052974739?e=2147483647&v=beta&t=Fa3361jJtY0tbvar8efa3mfdeZ6v2FWiWWhhlXnVg-Y"
+              />
+              <Card.Body>
+                <Card.Title>Hello, I'm Roshan!</Card.Title>
+                <Card.Text>
+                  I'm a Software Engineer at Bank of America.
+                </Card.Text>
+                <Card.Text>
+                  I also own a Coffee Roasting Business:{" "}
+                  <a href="/coffee">RJAM Beans & Brew</a>
+                </Card.Text>
+
+                <form method="get" action="files/rjamkatel_resume.pdf">
+                  <Button type="submit" variant="dark">
+                    My Resume
+                  </Button>
+                </form>
+              </Card.Body>
+            </Card>
+          </div>
+        );
     }
 }
 

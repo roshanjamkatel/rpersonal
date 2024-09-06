@@ -4,7 +4,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter as Router, Switch, Route, Redirect} from 'react-router-dom'
-
+import "bootstrap"; // <-- JS File
 
 import NavBar from './navBar/NavBar.js';
 import About from './About.js';
