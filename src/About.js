@@ -17,7 +17,7 @@ class About extends Component {
                   I'm a Software Engineer at Bank of America.
                 </Card.Text>
                 <Card.Text>
-                  I also own a Coffee Roasting Business:{" "}
+                  I also own a Coffee Roasting Business:
                   <a href="/coffee">RJAM Beans & Brew</a>
                 </Card.Text>
 
