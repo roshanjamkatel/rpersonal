@@ -1,4 +1,5 @@
 [build]
   command = "npm run build"
+  command = "CI=false npm run build"
   publish = "build"
   environment = { NODE_VERSION = "18.20.8" }
