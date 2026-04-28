@@ -1,0 +1,1125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Roshan &amp; Anuja — Wedding Planner</title>
+  <style>
+    /* ── Base ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #faf8f5;
+      --surface:  #ffffff;
+      --border:   #ece8e2;
+      --accent:   #c8956c;   /* warm terracotta */
+      --accent2:  #8a6e5a;   /* deep mocha */
+      --text:     #2d2218;
+      --muted:    #9e8e82;
+      --rose:     #e8c4b8;
+      --radius:   14px;
+      --shadow:   0 2px 12px rgba(0,0,0,.07);
+    }
+
+    html, body {
+      height: 100%;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Scrollbar ── */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+    /* ─────────────────────────────
+       PASSWORD SCREEN
+    ───────────────────────────── */
+    #lock-screen {
+      position: fixed; inset: 0;
+      background: var(--bg);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 999;
+      padding: 32px 24px;
+    }
+
+    #lock-screen .logo {
+      font-size: 44px;
+      margin-bottom: 16px;
+    }
+
+    #lock-screen h1 {
+      font-size: 22px;
+      font-weight: 600;
+      letter-spacing: .4px;
+      color: var(--accent2);
+      margin-bottom: 6px;
+    }
+
+    #lock-screen p {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 32px;
+    }
+
+    .lock-card {
+      width: 100%;
+      max-width: 360px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px 24px;
+      box-shadow: var(--shadow);
+    }
+
+    .lock-card label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: .8px;
+      margin-bottom: 8px;
+    }
+
+    .lock-card input[type="password"] {
+      width: 100%;
+      padding: 14px 16px;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      font-size: 16px;
+      background: var(--bg);
+      color: var(--text);
+      outline: none;
+      transition: border-color .2s;
+    }
+
+    .lock-card input[type="password"]:focus {
+      border-color: var(--accent);
+    }
+
+    .lock-card .err {
+      font-size: 12px;
+      color: #e05c5c;
+      margin-top: 8px;
+      min-height: 16px;
+    }
+
+    .btn-primary {
+      width: 100%;
+      padding: 14px;
+      margin-top: 20px;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background .2s, transform .1s;
+    }
+    .btn-primary:active { transform: scale(.98); }
+    .btn-primary:hover  { background: var(--accent2); }
+
+    /* ─────────────────────────────
+       APP SHELL
+    ───────────────────────────── */
+    #app {
+      display: none;
+      flex-direction: column;
+      min-height: 100%;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+
+    /* Header */
+    .app-header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 16px 20px 12px;
+    }
+
+    .app-header .couple {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--accent2);
+      letter-spacing: .3px;
+    }
+
+    .app-header .couple span {
+      color: var(--accent);
+    }
+
+    .app-header .subtitle {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 1px;
+    }
+
+    /* Event tabs */
+    .event-tabs {
+      display: flex;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .event-tabs::-webkit-scrollbar { display: none; }
+
+    .event-tab {
+      flex: 1;
+      padding: 12px 6px;
+      text-align: center;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--muted);
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      white-space: nowrap;
+      transition: color .2s, border-color .2s;
+      user-select: none;
+    }
+
+    .event-tab.active {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+    }
+
+    /* Content */
+    .app-content {
+      flex: 1;
+      padding: 0 0 80px;
+      overflow-y: auto;
+    }
+
+    /* Side tabs (Roshan / Anuja) */
+    .side-tabs {
+      display: flex;
+      margin: 16px 16px 0;
+      background: var(--border);
+      border-radius: 10px;
+      padding: 3px;
+    }
+
+    .side-tab {
+      flex: 1;
+      padding: 9px;
+      text-align: center;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--muted);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background .2s, color .2s;
+      user-select: none;
+    }
+
+    .side-tab.active {
+      background: var(--surface);
+      color: var(--accent2);
+      box-shadow: 0 1px 4px rgba(0,0,0,.1);
+    }
+
+    /* Section panel */
+    .section-panel { padding: 16px; }
+
+    /* Stats bar */
+    .stats-bar {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .stat {
+      flex: 1;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px;
+      text-align: center;
+    }
+
+    .stat-num {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    .stat-label {
+      font-size: 10px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: .6px;
+      margin-top: 2px;
+    }
+
+    /* Add guest card */
+    .add-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      margin-bottom: 16px;
+      overflow: hidden;
+    }
+
+    .add-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 16px;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .add-card-header span {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--accent2);
+    }
+
+    .add-card-header .chevron {
+      font-size: 12px;
+      color: var(--muted);
+      transition: transform .2s;
+    }
+
+    .add-card-header.open .chevron { transform: rotate(180deg); }
+
+    .add-card-body {
+      display: none;
+      padding: 0 16px 16px;
+      border-top: 1px solid var(--border);
+    }
+
+    .add-card-body.open { display: block; }
+
+    /* Sub-tabs inside add card */
+    .add-sub-tabs {
+      display: flex;
+      gap: 8px;
+      margin: 12px 0;
+    }
+
+    .add-sub-tab {
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      background: var(--bg);
+      color: var(--muted);
+      border: 1.5px solid var(--border);
+      transition: background .2s, color .2s, border-color .2s;
+    }
+
+    .add-sub-tab.active {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+
+    /* Input row */
+    .input-row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .input-row input,
+    .input-row select,
+    textarea.bulk-input {
+      flex: 1;
+      padding: 11px 13px;
+      border: 1.5px solid var(--border);
+      border-radius: 9px;
+      font-size: 14px;
+      background: var(--bg);
+      color: var(--text);
+      outline: none;
+      transition: border-color .2s;
+      font-family: inherit;
+    }
+
+    .input-row input:focus,
+    .input-row select:focus,
+    textarea.bulk-input:focus {
+      border-color: var(--accent);
+    }
+
+    .input-row select {
+      max-width: 140px;
+    }
+
+    textarea.bulk-input {
+      width: 100%;
+      resize: none;
+      height: 90px;
+      margin-bottom: 10px;
+    }
+
+    .btn-add {
+      padding: 11px 18px;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 9px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background .15s;
+      flex-shrink: 0;
+    }
+    .btn-add:active { background: var(--accent2); }
+
+    .btn-full {
+      width: 100%;
+      padding: 11px;
+      margin-top: 4px;
+    }
+
+    /* Category chips */
+    .chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 12px;
+    }
+
+    .chip {
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1.5px solid var(--border);
+      background: var(--bg);
+      color: var(--muted);
+      transition: background .15s, color .15s, border-color .15s;
+      user-select: none;
+    }
+
+    .chip.selected {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+
+    /* Guest list */
+    .guest-list-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+
+    .guest-list-header span {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: .6px;
+    }
+
+    .filter-chips {
+      display: flex;
+      gap: 6px;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      scrollbar-width: none;
+      padding-bottom: 4px;
+      margin-bottom: 12px;
+    }
+    .filter-chips::-webkit-scrollbar { display: none; }
+
+    .filter-chip {
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1.5px solid var(--border);
+      background: var(--bg);
+      color: var(--muted);
+      white-space: nowrap;
+      flex-shrink: 0;
+      transition: background .15s, color .15s, border-color .15s;
+    }
+
+    .filter-chip.active {
+      background: var(--accent2);
+      color: #fff;
+      border-color: var(--accent2);
+    }
+
+    .guest-item {
+      display: flex;
+      align-items: center;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px 14px;
+      margin-bottom: 8px;
+      gap: 12px;
+      animation: slideIn .18s ease;
+    }
+
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(-6px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .guest-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--rose);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--accent2);
+      flex-shrink: 0;
+    }
+
+    .guest-info { flex: 1; min-width: 0; }
+
+    .guest-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .guest-meta {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    .guest-badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 20px;
+      font-size: 10px;
+      font-weight: 700;
+      background: var(--rose);
+      color: var(--accent2);
+      text-transform: uppercase;
+      letter-spacing: .5px;
+    }
+
+    .guest-actions {
+      display: flex;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+
+    .btn-icon {
+      width: 30px;
+      height: 30px;
+      border-radius: 8px;
+      border: 1.5px solid var(--border);
+      background: var(--bg);
+      color: var(--muted);
+      font-size: 13px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background .15s, color .15s;
+    }
+
+    .btn-icon:hover { background: #fde8e8; color: #e05c5c; border-color: #e05c5c; }
+
+    /* Empty state */
+    .empty {
+      text-align: center;
+      padding: 32px 16px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .empty .icon { font-size: 36px; margin-bottom: 10px; }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(80px);
+      background: var(--text);
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 500;
+      z-index: 100;
+      transition: transform .25s ease;
+      white-space: nowrap;
+      pointer-events: none;
+    }
+    .toast.show { transform: translateX(-50%) translateY(0); }
+
+    /* Logout */
+    .logout-btn {
+      position: absolute;
+      right: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: var(--muted);
+      font-size: 18px;
+      cursor: pointer;
+      padding: 4px;
+    }
+
+    /* Modal */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.45);
+      z-index: 50;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      animation: fadeIn .18s ease;
+    }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    .modal {
+      width: 100%;
+      max-width: 480px;
+      background: var(--surface);
+      border-radius: 20px 20px 0 0;
+      padding: 24px 20px 40px;
+      animation: slideUp .22s ease;
+    }
+    @keyframes slideUp {
+      from { transform: translateY(80px); opacity: 0; }
+      to   { transform: translateY(0); opacity: 1; }
+    }
+
+    .modal h3 {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      color: var(--accent2);
+    }
+
+    .modal .input-row { margin-bottom: 12px; }
+
+    .modal-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .btn-cancel {
+      flex: 1;
+      padding: 12px;
+      background: var(--bg);
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--muted);
+      cursor: pointer;
+    }
+
+    .btn-save {
+      flex: 2;
+      padding: 12px;
+      background: var(--accent);
+      border: none;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #fff;
+      cursor: pointer;
+    }
+
+    /* Responsive tweak for larger phones */
+    @media (min-width: 400px) {
+      .stat-num { font-size: 26px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Lock Screen ── -->
+<div id="lock-screen">
+  <div class="logo">💍</div>
+  <h1>Roshan &amp; Anuja</h1>
+  <p>Wedding Planner — Private</p>
+  <div class="lock-card">
+    <label for="pw-input">Password</label>
+    <input type="password" id="pw-input" placeholder="Enter password" autocomplete="current-password" />
+    <div class="err" id="pw-err"></div>
+    <button class="btn-primary" id="pw-btn">Unlock</button>
+  </div>
+</div>
+
+<!-- ── App ── -->
+<div id="app">
+  <div class="app-header" style="position:relative;">
+    <div class="couple">Roshan <span>&amp;</span> Anuja</div>
+    <div class="subtitle">Wedding Planner</div>
+    <button class="logout-btn" id="logout-btn" title="Lock">🔒</button>
+  </div>
+
+  <!-- Event Tabs -->
+  <div class="event-tabs" id="event-tabs">
+    <div class="event-tab active" data-event="wedding">💒 Wedding</div>
+    <div class="event-tab" data-event="reception">🥂 Reception</div>
+    <div class="event-tab" data-event="engagement">💍 Engagement</div>
+  </div>
+
+  <div class="app-content" id="app-content">
+    <!-- Dynamically rendered -->
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ── Constants ──────────────────────────────────────────────────
+const CORRECT_PW  = 'thisismypassword';
+const STORAGE_KEY = 'weddingGuests_v2';
+const EVENTS      = ['wedding', 'reception', 'engagement'];
+const SIDES       = ['roshan', 'anuja'];
+const CATEGORIES  = ['Family', 'Close Friends', 'Friends', 'Colleagues', 'Neighbors', 'Other'];
+const SIDE_LABELS = { roshan: "Roshan's Side", anuja: "Anuja's Side" };
+
+// ── State ──────────────────────────────────────────────────────
+let state = {
+  currentEvent : 'wedding',
+  currentSide  : 'roshan',
+  addMode      : 'single',   // 'single' | 'bulk'
+  filterCat    : 'All',
+  addPanelOpen : false,
+  selectedCat  : 'Family',   // for new guest
+  guests       : loadGuests(),
+  editingId    : null,
+};
+
+// ── Persistence ────────────────────────────────────────────────
+function loadGuests() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    return raw ? JSON.parse(raw) : [];
+  } catch { return []; }
+}
+
+function saveGuests() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(state.guests));
+}
+
+function uid() {
+  return Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+}
+
+// ── Auth ───────────────────────────────────────────────────────
+const lockScreen = document.getElementById('lock-screen');
+const appEl      = document.getElementById('app');
+const pwInput    = document.getElementById('pw-input');
+const pwErr      = document.getElementById('pw-err');
+const pwBtn      = document.getElementById('pw-btn');
+
+function unlock() {
+  if (pwInput.value === CORRECT_PW) {
+    lockScreen.style.display = 'none';
+    appEl.style.display = 'flex';
+    sessionStorage.setItem('weddingUnlocked', '1');
+    render();
+  } else {
+    pwErr.textContent = 'Incorrect password. Try again.';
+    pwInput.value = '';
+    pwInput.focus();
+  }
+}
+
+pwBtn.addEventListener('click', unlock);
+pwInput.addEventListener('keydown', e => { if (e.key === 'Enter') unlock(); });
+
+document.getElementById('logout-btn').addEventListener('click', () => {
+  sessionStorage.removeItem('weddingUnlocked');
+  lockScreen.style.display = 'flex';
+  appEl.style.display = 'none';
+  pwInput.value = '';
+  pwErr.textContent = '';
+});
+
+// Re-unlock if session active
+if (sessionStorage.getItem('weddingUnlocked')) {
+  lockScreen.style.display = 'none';
+  appEl.style.display = 'flex';
+}
+
+// ── Event Tabs ─────────────────────────────────────────────────
+document.getElementById('event-tabs').addEventListener('click', e => {
+  const tab = e.target.closest('.event-tab');
+  if (!tab) return;
+  state.currentEvent = tab.dataset.event;
+  state.addPanelOpen = false;
+  state.filterCat    = 'All';
+  document.querySelectorAll('.event-tab').forEach(t => t.classList.remove('active'));
+  tab.classList.add('active');
+  render();
+});
+
+// ── Render ─────────────────────────────────────────────────────
+function render() {
+  const content = document.getElementById('app-content');
+  content.innerHTML = renderSideTabs() + renderPanel();
+  attachListeners();
+}
+
+function renderSideTabs() {
+  return `
+    <div class="side-tabs">
+      ${SIDES.map(s => `
+        <div class="side-tab ${state.currentSide === s ? 'active' : ''}" data-side="${s}">
+          ${s === 'roshan' ? '🤵 Roshan' : '👰 Anuja'}
+        </div>
+      `).join('')}
+    </div>
+  `;
+}
+
+function currentGuests() {
+  return state.guests.filter(g =>
+    g.event === state.currentEvent && g.side === state.currentSide
+  );
+}
+
+function filteredGuests() {
+  const all = currentGuests();
+  if (state.filterCat === 'All') return all;
+  return all.filter(g => g.category === state.filterCat);
+}
+
+function renderPanel() {
+  const guests  = currentGuests();
+  const total   = guests.length;
+  const cats    = [...new Set(guests.map(g => g.category))].sort();
+  const display = filteredGuests();
+
+  const eventLabel = { wedding: 'Wedding', reception: 'Reception', engagement: 'Engagement' }[state.currentEvent];
+  const sideLabel  = SIDE_LABELS[state.currentSide];
+
+  return `
+    <div class="section-panel">
+      <!-- Stats -->
+      <div class="stats-bar">
+        <div class="stat">
+          <div class="stat-num">${total}</div>
+          <div class="stat-label">Guests</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">${cats.length || 0}</div>
+          <div class="stat-label">Categories</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">${CATEGORIES.reduce((a, c) => a + guests.filter(g => g.category === c).length, 0) === total ? '✓' : total}</div>
+          <div class="stat-label">${eventLabel}</div>
+        </div>
+      </div>
+
+      <!-- Add Card -->
+      <div class="add-card">
+        <div class="add-card-header ${state.addPanelOpen ? 'open' : ''}" id="add-toggle">
+          <span>＋ Add Guest — ${sideLabel}</span>
+          <span class="chevron">▼</span>
+        </div>
+        <div class="add-card-body ${state.addPanelOpen ? 'open' : ''}">
+          <div class="add-sub-tabs">
+            <div class="add-sub-tab ${state.addMode === 'single' ? 'active' : ''}" data-mode="single">Single</div>
+            <div class="add-sub-tab ${state.addMode === 'bulk'   ? 'active' : ''}" data-mode="bulk">Bulk</div>
+          </div>
+
+          ${state.addMode === 'single' ? renderSingleForm() : renderBulkForm()}
+        </div>
+      </div>
+
+      <!-- Filter chips -->
+      <div class="filter-chips">
+        <div class="filter-chip ${state.filterCat === 'All' ? 'active' : ''}" data-filter="All">All (${total})</div>
+        ${CATEGORIES.filter(c => guests.some(g => g.category === c)).map(c => {
+          const n = guests.filter(g => g.category === c).length;
+          return `<div class="filter-chip ${state.filterCat === c ? 'active' : ''}" data-filter="${c}">${c} (${n})</div>`;
+        }).join('')}
+      </div>
+
+      <!-- Guest list -->
+      <div class="guest-list-header">
+        <span>${display.length} ${state.filterCat !== 'All' ? state.filterCat + ' ' : ''}guest${display.length !== 1 ? 's' : ''}</span>
+      </div>
+
+      ${display.length === 0 ? `
+        <div class="empty">
+          <div class="icon">🌸</div>
+          No guests yet. Add someone above!
+        </div>
+      ` : display.map(g => renderGuestItem(g)).join('')}
+    </div>
+  `;
+}
+
+function renderSingleForm() {
+  return `
+    <div class="chip-row">
+      ${CATEGORIES.map(c => `
+        <div class="chip ${state.selectedCat === c ? 'selected' : ''}" data-cat="${c}">${c}</div>
+      `).join('')}
+    </div>
+    <div class="input-row">
+      <input type="text" id="guest-name-input" placeholder="Guest name" autocomplete="off" />
+      <button class="btn-add" id="add-single-btn">Add</button>
+    </div>
+  `;
+}
+
+function renderBulkForm() {
+  return `
+    <p style="font-size:12px;color:var(--muted);margin-bottom:8px;">
+      Enter one name per line. All will be added to the selected category.
+    </p>
+    <div class="chip-row">
+      ${CATEGORIES.map(c => `
+        <div class="chip ${state.selectedCat === c ? 'selected' : ''}" data-cat="${c}">${c}</div>
+      `).join('')}
+    </div>
+    <textarea class="bulk-input" id="bulk-input" placeholder="Jane Smith&#10;John Doe&#10;Sarah Lee"></textarea>
+    <button class="btn-add btn-full" id="add-bulk-btn">Add All</button>
+  `;
+}
+
+function renderGuestItem(g) {
+  const initial = g.name.trim().charAt(0).toUpperCase();
+  return `
+    <div class="guest-item" data-id="${g.id}">
+      <div class="guest-avatar">${initial}</div>
+      <div class="guest-info">
+        <div class="guest-name">${escHtml(g.name)}</div>
+        <div class="guest-meta">
+          <span class="guest-badge">${escHtml(g.category)}</span>
+        </div>
+      </div>
+      <div class="guest-actions">
+        <button class="btn-icon edit-btn" data-id="${g.id}" title="Edit">✏️</button>
+        <button class="btn-icon delete-btn" data-id="${g.id}" title="Remove">🗑</button>
+      </div>
+    </div>
+  `;
+}
+
+// ── Attach Listeners ───────────────────────────────────────────
+function attachListeners() {
+  // Side tabs
+  document.querySelectorAll('.side-tab').forEach(t => {
+    t.addEventListener('click', () => {
+      state.currentSide  = t.dataset.side;
+      state.addPanelOpen = false;
+      state.filterCat    = 'All';
+      render();
+    });
+  });
+
+  // Add-panel toggle
+  document.getElementById('add-toggle')?.addEventListener('click', () => {
+    state.addPanelOpen = !state.addPanelOpen;
+    render();
+  });
+
+  // Add-mode tabs
+  document.querySelectorAll('.add-sub-tab').forEach(t => {
+    t.addEventListener('click', () => {
+      state.addMode = t.dataset.mode;
+      render();
+    });
+  });
+
+  // Category chips
+  document.querySelectorAll('.chip[data-cat]').forEach(c => {
+    c.addEventListener('click', () => {
+      state.selectedCat = c.dataset.cat;
+      render();
+    });
+  });
+
+  // Filter chips
+  document.querySelectorAll('.filter-chip[data-filter]').forEach(c => {
+    c.addEventListener('click', () => {
+      state.filterCat = c.dataset.filter;
+      render();
+    });
+  });
+
+  // Single add
+  const singleBtn = document.getElementById('add-single-btn');
+  const nameInput = document.getElementById('guest-name-input');
+  if (singleBtn) {
+    const doAdd = () => {
+      const name = nameInput?.value?.trim();
+      if (!name) { toast('Enter a name first'); return; }
+      addGuest(name, state.selectedCat);
+      nameInput.value = '';
+      nameInput.focus();
+    };
+    singleBtn.addEventListener('click', doAdd);
+    nameInput?.addEventListener('keydown', e => { if (e.key === 'Enter') doAdd(); });
+  }
+
+  // Bulk add
+  const bulkBtn = document.getElementById('add-bulk-btn');
+  if (bulkBtn) {
+    bulkBtn.addEventListener('click', () => {
+      const raw   = document.getElementById('bulk-input')?.value || '';
+      const names = raw.split('\n').map(n => n.trim()).filter(Boolean);
+      if (!names.length) { toast('Enter at least one name'); return; }
+      names.forEach(n => addGuest(n, state.selectedCat, false));
+      saveGuests();
+      toast(`Added ${names.length} guest${names.length > 1 ? 's' : ''}`);
+      state.addPanelOpen = false;
+      render();
+    });
+  }
+
+  // Delete
+  document.querySelectorAll('.delete-btn').forEach(b => {
+    b.addEventListener('click', () => {
+      const id = b.dataset.id;
+      state.guests = state.guests.filter(g => g.id !== id);
+      saveGuests();
+      toast('Guest removed');
+      render();
+    });
+  });
+
+  // Edit
+  document.querySelectorAll('.edit-btn').forEach(b => {
+    b.addEventListener('click', () => {
+      const g = state.guests.find(x => x.id === b.dataset.id);
+      if (g) openEditModal(g);
+    });
+  });
+}
+
+// ── Add Guest ─────────────────────────────────────────────────
+function addGuest(name, category, renderNow = true) {
+  state.guests.push({
+    id       : uid(),
+    name,
+    category,
+    event    : state.currentEvent,
+    side     : state.currentSide,
+    createdAt: Date.now(),
+  });
+  if (renderNow) {
+    saveGuests();
+    toast(`${name} added`);
+    render();
+  }
+}
+
+// ── Edit Modal ─────────────────────────────────────────────────
+function openEditModal(guest) {
+  const overlay = document.createElement('div');
+  overlay.className = 'modal-overlay';
+  overlay.innerHTML = `
+    <div class="modal">
+      <h3>Edit Guest</h3>
+      <div class="input-row">
+        <input type="text" id="edit-name" value="${escHtml(guest.name)}" placeholder="Name" />
+      </div>
+      <div class="chip-row" id="edit-cat-chips">
+        ${CATEGORIES.map(c => `
+          <div class="chip ${guest.category === c ? 'selected' : ''}" data-cat="${c}">${c}</div>
+        `).join('')}
+      </div>
+      <p style="font-size:12px;color:var(--muted);margin-bottom:6px;">Move to event:</p>
+      <div class="input-row">
+        <select id="edit-event">
+          ${EVENTS.map(ev => `<option value="${ev}" ${guest.event === ev ? 'selected' : ''}>${ev.charAt(0).toUpperCase() + ev.slice(1)}</option>`).join('')}
+        </select>
+        <select id="edit-side">
+          ${SIDES.map(s => `<option value="${s}" ${guest.side === s ? 'selected' : ''}>${s.charAt(0).toUpperCase() + s.slice(1)}</option>`).join('')}
+        </select>
+      </div>
+      <div class="modal-actions">
+        <button class="btn-cancel" id="edit-cancel">Cancel</button>
+        <button class="btn-save" id="edit-save">Save</button>
+      </div>
+    </div>
+  `;
+
+  document.body.appendChild(overlay);
+  let editCat = guest.category;
+
+  overlay.querySelectorAll('.chip[data-cat]').forEach(c => {
+    c.addEventListener('click', () => {
+      editCat = c.dataset.cat;
+      overlay.querySelectorAll('.chip').forEach(x => x.classList.remove('selected'));
+      c.classList.add('selected');
+    });
+  });
+
+  overlay.querySelector('#edit-cancel').addEventListener('click', () => overlay.remove());
+  overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
+
+  overlay.querySelector('#edit-save').addEventListener('click', () => {
+    const newName  = overlay.querySelector('#edit-name').value.trim();
+    const newEvent = overlay.querySelector('#edit-event').value;
+    const newSide  = overlay.querySelector('#edit-side').value;
+    if (!newName) { toast('Name cannot be empty'); return; }
+    const g = state.guests.find(x => x.id === guest.id);
+    if (g) {
+      g.name     = newName;
+      g.category = editCat;
+      g.event    = newEvent;
+      g.side     = newSide;
+    }
+    saveGuests();
+    overlay.remove();
+    toast('Guest updated');
+    render();
+  });
+}
+
+// ── Toast ──────────────────────────────────────────────────────
+let toastTimer;
+function toast(msg) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.remove('show'), 2200);
+}
+
+// ── Utils ──────────────────────────────────────────────────────
+function escHtml(str) {
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+// ── Init ───────────────────────────────────────────────────────
+if (sessionStorage.getItem('weddingUnlocked')) render();
+</script>
+</body>
+</html>
