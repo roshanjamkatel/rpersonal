@@ -1,81 +1,100 @@
-import React, { Component } from 'react'
-import Button from '@material-ui/core/Button';
-import "react-awesome-button/dist/styles.css";
-import Image from "react-bootstrap/Image";
-import Container from "react-bootstrap/Container";
+import React from 'react'
 
-class Links extends Component {
-    render() {
-        return (
-          <div className="link_buttons">
-            <Container>
-              <Image
-                className="circled_img"
-                src="https://media.licdn.com/dms/image/v2/D5603AQGWwTFa1UZCFg/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1723052974739?e=2147483647&v=beta&t=Fa3361jJtY0tbvar8efa3mfdeZ6v2FWiWWhhlXnVg-Y"
-                roundedCircle
-              />
-              <p id="instagramUsername">@r.jamkatel</p>
-            </Container>
-            <React.Fragment>
-              <hr></hr>
-              <Button
-                size="large"
-                variant="contained"
-                href="http://www.github.com/roshanjamkatel"
-                target="_blank"
-              >
-                Github
-              </Button>
-              <hr></hr>
-              <Button
-                size="large"
-                variant="contained"
-                href="http://www.twitch.tv/calatlasbb"
-                target="_blank"
-              >
-                Twitch
-              </Button>
-              <hr></hr>
-              <Button
-                size="large"
-                variant="contained"
-                href="http://www.instagram.com/r.jamkatel"
-                target="_blank"
-              >
-                Instagram
-              </Button>
-              <hr></hr>
-              <Button
-                size="large"
-                variant="contained"
-                href="http://www.instagram.com/rjamkatelphotography"
-                target="_blank"
-              >
-                Photography Instagram
-              </Button>
-              <hr></hr>
-              <Button
-                size="large"
-                variant="contained"
-                href="https://www.tiktok.com/@roshanjamkatel?lang=en"
-                target="_blank"
-              >
-                Tiktok
-              </Button>
-              <hr></hr>
-              <Button
-                size="large"
-                variant="contained"
-                href="https://blog.rjamkatel.com/"
-                target="_blank"
-              >
-                Blog
-              </Button>
-            </React.Fragment>
-          </div>
-        );
-    }
+const LINKS = [
+  {
+    icon: '🐙',
+    label: 'GitHub',
+    sub: 'roshanjamkatel',
+    href: 'http://www.github.com/roshanjamkatel',
+  },
+  {
+    icon: '💼',
+    label: 'LinkedIn',
+    sub: 'rjamkatel',
+    href: 'https://www.linkedin.com/in/rjamkatel',
+  },
+  {
+    icon: '📸',
+    label: 'Instagram',
+    sub: '@r.jamkatel',
+    href: 'http://www.instagram.com/r.jamkatel',
+  },
+  {
+    icon: '📷',
+    label: 'Photography',
+    sub: '@rjamkatelphotography',
+    href: 'http://www.instagram.com/rjamkatelphotography',
+  },
+  {
+    icon: '🎮',
+    label: 'Twitch',
+    sub: 'calatlasbb',
+    href: 'http://www.twitch.tv/calatlasbb',
+  },
+  {
+    icon: '🎵',
+    label: 'TikTok',
+    sub: '@roshanjamkatel',
+    href: 'https://www.tiktok.com/@roshanjamkatel',
+  },
+  {
+    icon: '✍️',
+    label: 'Blog',
+    sub: 'blog.rjamkatel.com',
+    href: 'https://blog.rjamkatel.com/',
+  },
+  {
+    icon: '☕',
+    label: 'RJAM Beans & Brew',
+    sub: 'Coffee Roasting Business',
+    href: '/coffee',
+  },
+]
+
+function Links() {
+  return (
+    <main className="hero">
+      <div className="hero__avatar-wrapper">
+        <div className="hero__avatar-ring" />
+        <img
+          className="hero__avatar"
+          src="https://media.licdn.com/dms/image/v2/D5603AQGWwTFa1UZCFg/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1723052974739?e=2147483647&v=beta&t=Fa3361jJtY0tbvar8efa3mfdeZ6v2FWiWWhhlXnVg-Y"
+          alt="Roshan Jamkatel"
+        />
+      </div>
+
+      <h1 className="hero__name">Roshan Jamkatel</h1>
+
+      <div className="hero__roles">
+        <span className="hero__role-badge">Feature Lead</span>
+        <span className="hero__role-badge">Application Manager</span>
+      </div>
+
+      <p className="hero__company">
+        @ <strong>Bank of America</strong>
+      </p>
+
+      <div className="hero__links">
+        {LINKS.map(({ icon, label, sub, href }) => (
+          <a
+            key={label}
+            className="hero__link-btn"
+            href={href}
+            target={href.startsWith('http') ? '_blank' : undefined}
+            rel={href.startsWith('http') ? 'noopener noreferrer' : undefined}
+          >
+            <span className="link-icon">{icon}</span>
+            <span className="link-label">
+              <span style={{ display: 'block' }}>{label}</span>
+              <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontWeight: 400 }}>{sub}</span>
+            </span>
+            <span className="link-arrow">›</span>
+          </a>
+        ))}
+      </div>
+    </main>
+  )
 }
 
+export default Links
 
-export default (Links)

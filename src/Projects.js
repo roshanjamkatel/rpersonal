@@ -1,186 +1,112 @@
 import React from 'react'
-import cx from 'clsx';
-import { makeStyles } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
-import Button from '@material-ui/core/Button';
-import BrandCardHeader from '@mui-treasury/components/cardHeader/brand';
-import TextInfoContent from '@mui-treasury/components/content/textInfo';
-import { useN03TextInfoContentStyles } from '@mui-treasury/styles/textInfoContent/n03';
-import { useLightTopShadowStyles } from '@mui-treasury/styles/shadow/lightTop';
 
-const useStyles = makeStyles(() => ({
-  root: {
-    maxWidth: 343,
-    borderRadius: 20,
+const PROJECTS = [
+  {
+    icon: '⚛️',
+    overline: 'ECampus',
+    title: 'Group Planning for Students',
+    updated: 'Mar 2021',
+    desc: 'A communication system built on Firebase and React that lets students and professionals manage project status and collaborate within organization groups.',
+    tags: ['React', 'Firebase', 'JavaScript'],
+    link: 'https://elastic-euclid-62f3b2.netlify.app/',
+    linkLabel: 'View Live',
   },
-  content: {
-    padding: 24,
+  {
+    icon: '🔺',
+    overline: 'FPSToolkit',
+    title: 'FPS ESport Professional Info',
+    updated: 'May 2021',
+    desc: 'An Angular + Firebase website displaying E-Sports information for competitive FPS gamers, built with TypeScript and TailwindCSS by a team of 3.',
+    tags: ['Angular', 'Firebase', 'TypeScript', 'Tailwind'],
+    link: 'https://www.fpstoolkit.tech',
+    linkLabel: 'View Live',
   },
-}));
+  {
+    icon: '🍎',
+    overline: 'Valorant Randomizer',
+    title: 'Video Game Randomizer',
+    updated: 'Apr 2021',
+    desc: 'An iOS app (Swift) that randomizes agents, weapons, and strategies for Valorant, making custom games with friends more exciting.',
+    tags: ['Swift', 'iOS', 'Valorant'],
+    link: 'https://github.com/roshanjamkatel/valorantRandomizer',
+    linkLabel: 'GitHub',
+  },
+  {
+    icon: '☕',
+    overline: 'GameVendorr',
+    title: 'Full Stack Videogame Marketplace',
+    updated: 'May 2021',
+    desc: 'A full-stack web app using MongoDB and PostgreSQL serving as a video game marketplace with reviews — a minimal version of Steam, built by 3 people.',
+    tags: ['Java', 'PostgreSQL', 'MongoDB'],
+    link: 'https://github.com/roshanjamkatel/GameVendor',
+    linkLabel: 'GitHub',
+  },
+  {
+    icon: '💉',
+    overline: 'Covid Vaccine Wallet',
+    title: 'COVID Vaccination Card Holder',
+    updated: 'Jun 2021',
+    desc: 'An iOS app that lets users securely scan and store their COVID-19 vaccination card with built-in privacy protections.',
+    tags: ['Swift', 'iOS', 'Security'],
+    link: null,
+    linkLabel: 'Coming Soon',
+  },
+  {
+    icon: '🌐',
+    overline: 'rjamkatel.com',
+    title: 'Personal Website',
+    updated: 'Jul 2021',
+    desc: 'This website — a modern portfolio and link hub built with React, JavaScript, and HTML to centralize all personal info.',
+    tags: ['React', 'JavaScript', 'CSS'],
+    link: null,
+    linkLabel: "You're Here!",
+  },
+]
 
-export const Projects = React.memo(function ProjectCard() {
-  const styles = useN03TextInfoContentStyles();
-  const shadowStyles = useLightTopShadowStyles();
-  const cardStyles = useStyles();
+function Projects() {
   return (
-      <>
-        <div className="project_cards">
-            <Card className={cx(cardStyles.root, shadowStyles.root)}>
-            <BrandCardHeader
-                image={
-                'https://pngimage.net/wp-content/uploads/2018/06/react-icon-png-7.png'
-                }
-                extra={'Last updated 3/14/2021'}
-            />
-            <CardContent className={cardStyles.content}>
-                <TextInfoContent
-                classes={styles}
-                overline={'ECampus'}
-                heading={'Group Planning for Students'}
-                body={
-                    'This is communication system that runs on Firebase and React and allows for students and professionals to communicate with each other and have a place to manage the project status, and for user groups that are create towards each organization.'
-                }
-                />
-            </CardContent>
-            <CardActions>
-                <Button size="small" color="primary" href="https://elastic-euclid-62f3b2.netlify.app/" target ="_blank">
-                    View Project
-                </Button>
-            </CardActions>
-            </Card>
+    <main className="projects-page">
+      <div className="projects-page__header">
+        <h1>Projects</h1>
+        <p>A collection of things I've built over the years.</p>
+      </div>
+
+      <div className="projects-grid">
+        {PROJECTS.map(({ icon, overline, title, updated, desc, tags, link, linkLabel }) => (
+          <div key={title} className="proj-card">
+            <div className="proj-card__header">
+              <div className="proj-card__tech-badge">{icon}</div>
+              <div className="proj-card__meta">
+                <div className="proj-card__overline">{overline}</div>
+                <div className="proj-card__updated">Updated {updated}</div>
+              </div>
             </div>
-            
-        <div className="project_cards">
-            <Card className={cx(cardStyles.root, shadowStyles.root)}>
-            <BrandCardHeader
-                image={
-                'https://pngimage.net/wp-content/uploads/2018/05/angular-logo-png.png'
-                }          
-                extra={'Last updated 5/27/2021'}
-            />
-            <CardContent className={cardStyles.content}>
-                <TextInfoContent
-                classes={styles}
-                overline={'FPSToolkit'}
-                heading={'FPS ESport Professional Info'}
-                body={
-                    'This is a website that uses both Angular and Firebase to display E-Sports information to users who want to get better at their given games. It uses tailwindcss and typescript to pass objects and models throughout the website. This website is built with 3 different people.'
-                }
-                />
-            </CardContent>
-             <CardActions>
-                <Button size="small" color="primary" href="https://www.fpstoolkit.tech" target ="_blank">
-                    View Project
-                </Button>
-            </CardActions>
-            </Card>
-        </div>
 
-        <div className="project_cards">
-            <Card className={cx(cardStyles.root, shadowStyles.root)}>
-            <BrandCardHeader
-                image={
-                'https://pngimage.net/wp-content/uploads/2018/06/swift-logo-png-8.png'
-                }
-                extra={'Last updated 4/20/2021'}
-            />
-            <CardContent className={cardStyles.content}>
-                <TextInfoContent
-                classes={styles}
-                overline={'Valorant Randomizer'}
-                heading={'Video Game Randomizer'}
-                body={
-                    'This is an iOS application that randomizes agents, weapons, and strategies for the game Valorant by Riot Games. Coded in Swift, the application makes your custom games with friends become more daring. Application is not out on the appstore, however you can view the github content of the application here.'
-                }
-                />
-            </CardContent>
-             <CardActions>
-                <Button size="small" color="primary" href="https://github.com/roshanjamkatel/valorantRandomizer" target="_blank">
-                    View Project on Github
-                </Button>
-            </CardActions>
-            </Card>
-        </div>
-
-        <div className="project_cards">
-            <Card className={cx(cardStyles.root, shadowStyles.root)}>
-            <BrandCardHeader
-                image={
-                'https://pngimage.net/wp-content/uploads/2018/06/java-logo-transparent-png-8.png'
-                }
-                extra={'Last updated 5/27/2021'}
-            />
-            <CardContent className={cardStyles.content}>
-                <TextInfoContent
-                classes={styles}
-                overline={'GameVendorr'}
-                heading={'Full Stack Videogame Marketplace'}
-                body={
-                    'This is a web application that uses MongoDB and PostgresSQL for the backend. It is not hosted but can be forked all looked at on my github. The website is a mock sale website for video games and allows for reviews. This is a simple, minimal version of steam. This website is created by 3 people.'
-                }
-                />
-            </CardContent>
-             <CardActions>
-                <Button size="small" color="primary" href="https://github.com/roshanjamkatel/GameVendor" target="_blank">
-                    View Project on Github
-                </Button>
-            </CardActions>
-            </Card>
-        </div>
-
-        <div className="project_cards">
-            <Card className={cx(cardStyles.root, shadowStyles.root)}>
-            <BrandCardHeader
-                image={
-                'https://pngimage.net/wp-content/uploads/2018/06/swift-logo-png-8.png'
-                }
-                extra={'Last updated 6/10/2021'}
-            />
-            <CardContent className={cardStyles.content}>
-                <TextInfoContent
-                classes={styles}
-                overline={'Covid Vaccine Wallet'}
-                heading={'Covid Vaccination Card Holder'}
-                body={
-                    'This is an iOS application that allows a user to scan and process a COVID-19 Vaccination card with security protections. Application is not out on the appstore but you can view the content on github.'
-                }
-                />
-            </CardContent>
-             <CardActions>
-                <Button size="small" color="primary" href="" target="_blank">
-                    View Project on Github
-                </Button>
-            </CardActions>
-            </Card>
-        </div>
-
-         <div className="project_cards">
-            <Card className={cx(cardStyles.root, shadowStyles.root)}>
-            <BrandCardHeader
-                image={
-                'https://pngimage.net/wp-content/uploads/2018/06/react-icon-png-7.png'
-                }
-                extra={'Last updated 7/9/2021'}
-            />
-            <CardContent className={cardStyles.content}>
-                <TextInfoContent
-                classes={styles}
-                overline={'www.rjamkatel.com'}
-                heading={'Personal Website'}
-                body={
-                    'This website is a mock of linktree to contain all my information for quick and easy access, created using React, JS, and HTML.'
-                }
-                />
-            </CardContent>
-            </Card>
+            <div className="proj-card__body">
+              <h3 className="proj-card__title">{title}</h3>
+              <p className="proj-card__desc">{desc}</p>
             </div>
-    </>
-    
-  );
-});
 
+            <div className="proj-card__footer">
+              <div className="proj-card__tags">
+                {tags.map(t => <span key={t} className="tag">{t}</span>)}
+              </div>
+              {link ? (
+                <a className="btn-view" href={link} target="_blank" rel="noopener noreferrer">
+                  {linkLabel} ↗
+                </a>
+              ) : (
+                <span className="btn-view" style={{ opacity: 0.5, cursor: 'default', background: 'rgba(108,99,255,0.2)' }}>
+                  {linkLabel}
+                </span>
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
+    </main>
+  )
+}
 
+export default Projects
 
-export default (Projects)
