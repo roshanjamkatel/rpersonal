@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import cx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';

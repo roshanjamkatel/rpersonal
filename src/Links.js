@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { AwesomeButton, AwesomeButtonSocial } from "react-awesome-button";
 import Button from '@material-ui/core/Button';
 import "react-awesome-button/dist/styles.css";
 import Image from "react-bootstrap/Image";
