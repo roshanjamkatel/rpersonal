@@ -1,0 +1,47 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+.aboutme_card {
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+  
+}
+
+.project_cards {
+  display: flex;
+  justify-content: center;
+  padding: 2%;
+}
+
+.link_buttons {
+  
+}
+
+.circled_img {
+  width: 25vh;
+  padding: 10px;
+}
+
+.App {
+  background-color: #f8f9fa;
+}
+
+:root {
+  background-color: #f8f9fa;
+}
+
+#instagramUsername {
+  color: black;
+}
